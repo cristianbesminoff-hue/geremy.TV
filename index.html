@@ -23,8 +23,6 @@
     </script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Hls.js para reprodução de streams IPTV -->
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
         body { font-family: 'Poppins', sans-serif; background-color: #050814; color: #f8fafc; }
@@ -51,10 +49,10 @@
             
             <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
                 <a href="#home" class="hover:text-accentBlue transition">Início</a>
-                <a href="#player" class="hover:text-accentBlue transition text-accentBlue font-bold"><i class="fa-solid fa-play-circle mr-1"></i> Web Player</a>
                 <a href="#sobre" class="hover:text-accentBlue transition">O que é IPTV</a>
                 <a href="#planos" class="hover:text-accentBlue transition">Planos</a>
                 <a href="#equipamento" class="hover:text-accentBlue transition">Fire Stick</a>
+                <a href="#indica" class="hover:text-accentBlue transition">Indique & Ganhe</a>
                 <a href="#ajuda" class="hover:text-accentBlue transition">Ajuda (FAQ)</a>
             </nav>
 
@@ -71,10 +69,10 @@
         <!-- Menu Mobile -->
         <div id="mobileMenu" class="hidden md:hidden bg-cardBg border-b border-slate-800 px-4 pt-2 pb-4 space-y-3">
             <a href="#home" class="block py-2 hover:text-accentBlue">Início</a>
-            <a href="#player" class="block py-2 text-accentBlue font-bold"><i class="fa-solid fa-play-circle mr-1"></i> Web Player</a>
             <a href="#sobre" class="block py-2 hover:text-accentBlue">O que é IPTV</a>
             <a href="#planos" class="block py-2 hover:text-accentBlue">Planos</a>
             <a href="#equipamento" class="block py-2 hover:text-accentBlue">Fire Stick</a>
+            <a href="#indica" class="block py-2 hover:text-accentBlue">Indique & Ganhe</a>
             <a href="#ajuda" class="block py-2 hover:text-accentBlue">Ajuda (FAQ)</a>
             <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20pedir%20meu%20TESTE%20GRÁTIS%20no%20Geremy.TV" target="_blank" class="block w-full text-center bg-emerald-600 text-white font-semibold py-2 rounded-xl">
                 <i class="fa-brands fa-whatsapp mr-2"></i> Teste Grátis no WhatsApp
@@ -83,7 +81,7 @@
     </header>
 
     <!-- Hero Section -->
-    <section id="home" class="relative pt-16 pb-24 overflow-hidden">
+    <section id="home" class="relative pt-20 pb-28 overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             <span class="inline-flex items-center space-x-2 bg-blue-950/80 border border-blue-500/30 text-blue-400 text-xs sm:text-sm font-medium px-4 py-1.5 rounded-full mb-6">
@@ -103,159 +101,6 @@
                 <a href="#planos" class="w-full sm:w-auto bg-cardBg hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold px-8 py-4 rounded-xl text-lg transition flex items-center justify-center">
                     <i class="fa-solid fa-tags mr-2 text-accentBlue"></i> Ver Planos e Preços
                 </a>
-            </div>
-        </div>
-    </section>
-
-    <!-- XCIPTV / XP IPTV Web Player Section -->
-    <section id="player" class="py-16 bg-slate-950/60 border-y border-slate-900">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="text-center mb-10">
-                <h2 class="text-3xl font-bold mb-2">Web Player <span class="gradient-text">Exclusivo Geremy.TV</span></h2>
-                <p class="text-slate-400">Faça login com sua lista M3U ou dados do painel para testar os canais e filmes direto no navegador.</p>
-            </div>
-
-            <!-- Container Principal do Player estilo App de TV -->
-            <div class="bg-cardBg rounded-2xl glow-card overflow-hidden border border-slate-800">
-                
-                <!-- 1. Tela de Login / Conexão (Estilo App XCIPTV) -->
-                <div id="loginPanel" class="p-8 sm:p-12">
-                    <div class="max-w-md mx-auto bg-darkBg/80 p-8 rounded-2xl border border-slate-800">
-                        <div class="text-center mb-6">
-                            <div class="w-16 h-16 bg-accentBlue/20 text-accentBlue rounded-full flex items-center justify-center mx-auto mb-3 text-2xl glow-blue">
-                                <i class="fa-solid fa-user-lock"></i>
-                            </div>
-                            <h3 class="text-xl font-bold">Conectar ao Servidor</h3>
-                            <p class="text-xs text-slate-400 mt-1">Insira suas credenciais IPTV ou link M3U</p>
-                        </div>
-
-                        <!-- Abas de Tipo de Conexão -->
-                        <div class="flex bg-slate-900 p-1 rounded-xl mb-6 text-sm font-medium">
-                            <button onclick="alternarMetodoLogin('xtream')" id="tabXtream" class="flex-1 py-2 rounded-lg bg-accentBlue text-white transition">Dados API</button>
-                            <button onclick="alternarMetodoLogin('m3u')" id="tabM3u" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition">Lista M3U</button>
-                        </div>
-
-                        <!-- Formulário XTREAM API -->
-                        <div id="formXtream" class="space-y-4">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">Nome da Lista</label>
-                                <input type="text" id="xtreamName" value="Geremy.TV VIP" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
-                            </div>
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">URL do Servidor (ex: http://servidor.com:8080)</label>
-                                <input type="text" id="xtreamUrl" placeholder="http://..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
-                            </div>
-                            <div class="grid grid-cols-2 gap-3">
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-400 mb-1">Usuário</label>
-                                    <input type="text" id="xtreamUser" placeholder="Usuário" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
-                                </div>
-                                <div>
-                                    <label class="block text-xs font-medium text-slate-400 mb-1">Senha</label>
-                                    <input type="password" id="xtreamPass" placeholder="Senha" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
-                                </div>
-                            </div>
-                            <button onclick="conectarXtream()" class="w-full bg-accentBlue hover:bg-accentHover text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40">
-                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Conectar ao Painel
-                            </button>
-                        </div>
-
-                        <!-- Formulário M3U -->
-                        <div id="formM3u" class="space-y-4 hidden">
-                            <div>
-                                <label class="block text-xs font-medium text-slate-400 mb-1">URL da Lista M3U (.m3u / .m3u8)</label>
-                                <textarea id="m3uInput" rows="4" placeholder="Cole o link completo da sua lista M3U aqui..." class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-sm focus:outline-none focus:border-accentBlue text-white resize-none"></textarea>
-                            </div>
-                            <button onclick="conectarM3U()" class="w-full bg-accentBlue hover:bg-accentHover text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40">
-                                <i class="fa-solid fa-link mr-2"></i> Carregar Lista M3U
-                            </button>
-                        </div>
-
-                        <!-- Botão de Demonstração Rápida -->
-                        <div class="mt-6 pt-6 border-t border-slate-800 text-center">
-                            <p class="text-xs text-slate-400 mb-3">Quer apenas testar o player agora?</p>
-                            <button onclick="carregarDemo()" class="bg-slate-800 hover:bg-slate-700 text-accentBlue text-xs font-semibold px-4 py-2 rounded-lg transition border border-accentBlue/30">
-                                <i class="fa-solid fa-bolt mr-1"></i> Carregar Canais de Demonstração
-                            </button>
-                        </div>
-
-                        <div id="loginError" class="mt-4 hidden bg-red-950/80 border border-red-500/50 text-red-200 text-xs p-3 rounded-lg text-center"></div>
-                    </div>
-                </div>
-
-                <!-- 2. Dashboard / Menu Estilo XCIPTV (Oculto até conectar) -->
-                <div id="dashboardPanel" class="hidden">
-                    <!-- Top Bar do Painel -->
-                    <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
-                        <div class="flex items-center space-x-3">
-                            <div class="w-9 h-9 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-bold">
-                                <i class="fa-solid fa-signal"></i>
-                            </div>
-                            <div>
-                                <h4 id="dashTitle" class="font-bold text-sm">Geremy.TV - Conectado</h4>
-                                <span class="text-xs text-emerald-400"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Servidor Online (4K/HD)</span>
-                            </div>
-                        </div>
-
-                        <!-- Abas de Categorias do App -->
-                        <div class="flex items-center space-x-2 bg-darkBg p-1.5 rounded-xl border border-slate-800">
-                            <button onclick="mudarAbaPainel('live')" id="btnTabLive" class="px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2">
-                                <i class="fa-solid fa-tv"></i> <span>Ao Vivo</span>
-                            </button>
-                            <button onclick="mudarAbaPainel('movies')" id="btnTabMovies" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2">
-                                <i class="fa-solid fa-film"></i> <span>Filmes (VOD)</span>
-                            </button>
-                            <button onclick="mudarAbaPainel('series')" id="btnTabSeries" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2">
-                                <i class="fa-solid fa-clapperboard"></i> <span>Séries</span>
-                            </button>
-                        </div>
-
-                        <button onclick="desconectarPlayer()" class="bg-red-950/60 hover:bg-red-900 border border-red-500/30 text-red-300 text-xs font-semibold px-4 py-2 rounded-xl transition">
-                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Desconectar
-                        </button>
-                    </div>
-
-                    <!-- Conteúdo Principal do Player -->
-                    <div class="grid grid-cols-1 lg:grid-cols-3 min-h-[500px]">
-                        
-                        <!-- Lista de Canais/Itens (Coluna Esquerda) -->
-                        <div class="bg-darkBg/50 p-4 border-r border-slate-800 flex flex-col">
-                            <div class="mb-3">
-                                <input type="text" id="searchChannel" onkeyup="filtrarCanais()" placeholder="Buscar canal ou filme..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-accentBlue text-white">
-                            </div>
-                            <div id="channelList" class="space-y-2 overflow-y-auto max-h-[420px] pr-1">
-                                <!-- Preenchido via JavaScript -->
-                            </div>
-                        </div>
-
-                        <!-- Player de Vídeo e Detalhes (Coluna Direita - 2 colunas) -->
-                        <div class="lg:col-span-2 p-6 flex flex-col justify-between bg-darkBg">
-                            <div class="relative bg-black rounded-xl overflow-hidden aspect-video shadow-2xl flex items-center justify-center border border-slate-800">
-                                <video id="videoPlayer" class="w-full h-full object-contain" controls autoplay></video>
-                                <div id="playerPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 text-center p-6">
-                                    <div class="w-16 h-16 rounded-full bg-slate-900 text-accentBlue flex items-center justify-center mb-3 text-2xl glow-blue">
-                                        <i class="fa-solid fa-play"></i>
-                                    </div>
-                                    <p class="text-sm font-semibold text-slate-300">Selecione um canal ou filme na lista ao lado para reproduzir</p>
-                                </div>
-                            </div>
-
-                            <div class="mt-4 flex items-center justify-between bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
-                                <div>
-                                    <h5 id="currentPlayingName" class="font-bold text-sm text-accentBlue">Nenhum canal selecionado</h5>
-                                    <p id="currentPlayingCategory" class="text-xs text-slate-400 mt-0.5">Geremy.TV Web Player - Alta Definição</p>
-                                </div>
-                                <div class="flex items-center space-x-2">
-                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30">
-                                        <i class="fa-solid fa-circle text-[6px] mr-1"></i> HD / 4K
-                                    </span>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-
             </div>
         </div>
     </section>
@@ -452,7 +297,7 @@
     </section>
 
     <!-- Programa de Indicação (Indique e Ganhe) -->
-    <section class="py-16 bg-slate-950/60 border-y border-slate-900">
+    <section id="indica" class="py-16 bg-slate-950/60 border-y border-slate-900">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <span class="text-accentBlue font-bold uppercase tracking-wider text-sm mb-2 block">Indique & Ganhe</span>
             <h2 class="text-3xl font-extrabold mb-4">Ganhe Descontos e Dias Grátis</h2>
@@ -555,7 +400,7 @@
         </div>
     </footer>
 
-    <!-- JavaScript para interatividade do Player e Site -->
+    <!-- JavaScript para interatividade básica -->
     <script>
         // Menu Mobile Toggle
         const menuBtn = document.getElementById('menuBtn');
@@ -570,271 +415,6 @@
             const icon = document.getElementById(`faqIcon${id}`);
             content.classList.toggle('hidden');
             icon.classList.toggle('rotate-180');
-        }
-
-        // Alternar abas de login
-        function alternarMetodoLogin(tipo) {
-            const tabXtream = document.getElementById('tabXtream');
-            const tabM3u = document.getElementById('tabM3u');
-            const formXtream = document.getElementById('formXtream');
-            const formM3u = document.getElementById('formM3u');
-
-            if (tipo === 'xtream') {
-                tabXtream.className = "flex-1 py-2 rounded-lg bg-accentBlue text-white transition";
-                tabM3u.className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
-                formXtream.classList.remove('hidden');
-                formM3u.classList.add('hidden');
-            } else {
-                tabM3u.className = "flex-1 py-2 rounded-lg bg-accentBlue text-white transition";
-                tabXtream.className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
-                formM3u.classList.remove('hidden');
-                formXtream.classList.add('hidden');
-            }
-        }
-
-        // Dados globais do player
-        let listaCanaisAtual = [];
-        let hlsInstance = null;
-
-        // Canais de demonstração funcionais (HLS livres e testes públicos)
-        const canaisDemo = [
-            {
-                name: "Big Buck Bunny (Filme Demo HD)",
-                category: "Filmes",
-                url: "https://test-streams.mux.dev/x36h1/x36h1.m3u8"
-            },
-            {
-                name: "Sintel Animation (Demo 1080p)",
-                category: "Filmes",
-                url: "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
-            },
-            {
-                name: "Tears of Steel (Sci-Fi Demo)",
-                category: "Séries",
-                url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
-            },
-            {
-                name: "Canal Ao Vivo Teste 1 (HLS Stream)",
-                category: "Ao Vivo",
-                url: "https://cph-p2p-ms.akamaized.net/hls/live/2000341/test/master.m3u8"
-            }
-        ];
-
-        function carregarDemo() {
-            listaCanaisAtual = canaisDemo;
-            ativarDashboard("Geremy.TV - Demonstração Oficial");
-            renderizarListaCanais(listaCanaisAtual);
-        }
-
-        function conectarXtream() {
-            const url = document.getElementById('xtreamUrl').value.trim();
-            const user = document.getElementById('xtreamUser').value.trim();
-            const pass = document.getElementById('xtreamPass').value.trim();
-            const name = document.getElementById('xtreamName').value.trim() || "Geremy.TV VIP";
-            const errDiv = document.getElementById('loginError');
-
-            if (!url || !user || !pass) {
-                errDiv.textContent = "Por favor, preencha a URL, Usuário e Senha!";
-                errDiv.classList.remove('hidden');
-                return;
-            }
-            errDiv.classList.add('hidden');
-
-            // Simula requisição Xtream Codes API ou usa fallback de demo se houver erro de CORS
-            let apiUrl = `${url}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`;
-            
-            // Usamos proxy CORS público para garantir que o navegador consiga ler o painel externo
-            let proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
-
-            fetch(proxyUrl)
-                .then(res => res.json())
-                .then(data => {
-                    if (Array.isArray(data) && data.length > 0) {
-                        listaCanaisAtual = data.map(item => ({
-                            name: item.name || "Canal IPTV",
-                            category: "Ao Vivo",
-                            url: `${url}/live/${user}/${pass}/${item.stream_id}.m3u8`
-                        }));
-                        ativarDashboard(name);
-                        renderizarListaCanais(listaCanaisAtual);
-                    } else {
-                        throw new Error("Resposta inválida do servidor.");
-                    }
-                })
-                .catch(err => {
-                    console.warn("Aviso: Conexão direta bloqueada por CORS/Servidor. Carregando modo compatível com canais de demonstração.");
-                    // Fallback inteligente para demonstração caso o servidor do cliente bloqueie requisições web diretas
-                    listaCanaisAtual = canaisDemo;
-                    ativarDashboard(name + " (Modo Compatível)");
-                    renderizarListaCanais(listaCanaisAtual);
-                });
-        }
-
-        function conectarM3U() {
-            const m3uText = document.getElementById('m3uInput').value.trim();
-            const errDiv = document.getElementById('loginError');
-
-            if (!m3uText) {
-                errDiv.textContent = "Por favor, cole a URL ou o conteúdo da lista M3U!";
-                errDiv.classList.remove('hidden');
-                return;
-            }
-            errDiv.classList.add('hidden');
-
-            // Se for URL, tentamos ler via fetch/proxy
-            if (m3uText.startsWith('http')) {
-                let proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(m3uText)}`;
-                fetch(proxyUrl)
-                    .then(res => res.text())
-                    .then(text => {
-                        processarM3UText(text);
-                    })
-                    .catch(() => {
-                        alert("Não foi possível carregar a URL M3U diretamente pelo navegador devido a restrições de segurança. Carregando lista de demonstração.");
-                        carregarDemo();
-                    });
-            } else {
-                processarM3UText(m3uText);
-            }
-        }
-
-        function processarM3UText(texto) {
-            let linhas = texto.split('\n');
-            let canais = [];
-            let nomeAtual = "Canal IPTV";
-
-            for (let i = 0; i < linhas.length; i++) {
-                let linha = linhas[i].trim();
-                if (linha.startsWith('#EXTINF:')) {
-                    let partes = linha.split(',');
-                    if (partes.length > 1) {
-                        nomeAtual = partes[1].trim();
-                    }
-                } else if (linha && !linha.startsWith('#')) {
-                    canais.push({
-                        name: nomeAtual,
-                        category: "Lista M3U",
-                        url: linha
-                    });
-                }
-            }
-
-            if (canais.length > 0) {
-                listaCanaisAtual = canais;
-                ativarDashboard("Lista M3U Personalizada");
-                renderizarListaCanais(listaCanaisAtual);
-            } else {
-                alert("Nenhum canal válido encontrado na lista M3U informada.");
-            }
-        }
-
-        function ativarDashboard(titulo) {
-            document.getElementById('loginPanel').classList.add('hidden');
-            document.getElementById('dashboardPanel').classList.remove('hidden');
-            document.getElementById('dashTitle').textContent = titulo;
-        }
-
-        function desconectarPlayer() {
-            pararVideo();
-            document.getElementById('dashboardPanel').classList.add('hidden');
-            document.getElementById('loginPanel').classList.remove('hidden');
-        }
-
-        function renderizarListaCanais(canais) {
-            const container = document.getElementById('channelList');
-            container.innerHTML = '';
-
-            if (canais.length === 0) {
-                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Nenhum canal encontrado.</p>`;
-                return;
-            }
-
-            canais.forEach((canal, index) => {
-                let div = document.createElement('div');
-                div.className = "flex items-center justify-between bg-slate-900 hover:bg-slate-800/80 p-3 rounded-xl cursor-pointer transition border border-slate-800/80 group";
-                div.innerHTML = `
-                    <div class="flex items-center space-x-3 truncate">
-                        <div class="w-8 h-8 rounded-lg bg-accentBlue/20 text-accentBlue flex items-center justify-center text-xs font-bold flex-shrink-0 group-hover:bg-accentBlue group-hover:text-white transition">
-                            <i class="fa-solid fa-play text-[10px]"></i>
-                        </div>
-                        <div class="truncate">
-                            <h5 class="text-xs font-bold text-slate-200 truncate">${canal.name}</h5>
-                            <span class="text-[10px] text-slate-400">${canal.category}</span>
-                        </div>
-                    </div>
-                `;
-                div.onclick = () => reproduzirCanal(canal);
-                container.appendChild(div);
-            });
-        }
-
-        function filtrarCanais() {
-            let termo = document.getElementById('searchChannel').value.toLowerCase();
-            let filtrados = listaCanaisAtual.filter(c => c.name.toLowerCase().includes(termo));
-            renderizarListaCanais(filtrados);
-        }
-
-        function reproduzirCanal(canal) {
-            const video = document.getElementById('videoPlayer');
-            const placeholder = document.getElementById('playerPlaceholder');
-            const nomeEl = document.getElementById('currentPlayingName');
-            const catEl = document.getElementById('currentPlayingCategory');
-
-            placeholder.classList.add('hidden');
-            nomeEl.textContent = canal.name;
-            catEl.textContent = `Categoria: ${canal.category}`;
-
-            pararVideo();
-
-            if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = canal.url;
-                video.play().catch(e => console.log("Autoplay impedido pelo navegador"));
-            } else if (Hls.isSupported()) {
-                hlsInstance = new Hls();
-                hlsInstance.loadSource(canal.url);
-                hlsInstance.attachMedia(video);
-                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
-                    video.play().catch(e => console.log("Autoplay impedido pelo navegador"));
-                });
-                hlsInstance.on(Hls.Events.ERROR, function(event, data) {
-                    if (data.fatal) {
-                        alert("Não foi possível reproduzir este stream devido a restrições de CORS ou link expirado.");
-                    }
-                });
-            } else {
-                alert("Seu navegador não suporta reprodução HLS.");
-            }
-        }
-
-        function pararVideo() {
-            const video = document.getElementById('videoPlayer');
-            video.pause();
-            video.src = "";
-            if (hlsInstance) {
-                hlsInstance.destroy();
-                hlsInstance = null;
-            }
-        }
-
-        function mudarAbaPainel(aba) {
-            const btnLive = document.getElementById('btnTabLive');
-            const btnMovies = document.getElementById('btnTabMovies');
-            const btnSeries = document.getElementById('btnTabSeries');
-
-            btnLive.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
-            btnMovies.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
-            btnSeries.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
-
-            if (aba === 'live') {
-                btnLive.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
-                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('ao vivo') || c.category.toLowerCase().includes('live')));
-            } else if (aba === 'movies') {
-                btnMovies.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
-                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('filmes') || c.category.toLowerCase().includes('vod')));
-            } else {
-                btnSeries.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
-                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('séries') || c.category.toLowerCase().includes('series')));
-            }
         }
     </script>
 </body>
