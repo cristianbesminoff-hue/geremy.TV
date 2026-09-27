@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="pt-BR" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Geremy.TV - O Melhor Sistema de IPTV e Filmes</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#050814',
+                        cardBg: '#0b1329',
+                        accentBlue: '#3b82f6',
+                        accentHover: '#2563eb'
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Hls.js para reprodução de streams IPTV -->
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+        body { font-family: 'Poppins', sans-serif; background-color: #050814; color: #f8fafc; }
+        .glow-blue { box-shadow: 0 0 25px rgba(59, 130, 246, 0.4); }
+        .glow-card { box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5); border: 1px solid rgba(59, 130, 246, 0.15); }
+        .gradient-text { background: linear-gradient(135deg, #60a5fa 0%, #3b82f6 50%, #1d4ed8 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050814; }
+        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3b82f6; }
+    </style>
+</head>
+<body class="bg-darkBg text-slate-100 antialiased selection:bg-accentBlue selection:text-white">
+
+    <!-- Header / Navbar -->
+    <header class="sticky top-0 z-50 bg-darkBg/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-accentBlue to-indigo-600 flex items-center justify-center glow-blue text-white font-bold text-xl">
+                    <i class="fa-solid fa-tv"></i>
+                </div>
+                <span class="text-2xl font-extrabold tracking-wider gradient-text">GEREMY.TV</span>
+            </div>
+            
+            <nav class="hidden md:flex items-center space-x-8 text-sm font-medium">
+                <a href="#home" class="hover:text-accentBlue transition">Início</a>
+                <a href="#player" class="hover:text-accentBlue transition text-accentBlue font-bold"><i class="fa-solid fa-play-circle mr-1"></i> Web Player</a>
+                <a href="#sobre" class="hover:text-accentBlue transition">O que é IPTV</a>
+                <a href="#planos" class="hover:text-accentBlue transition">Planos</a>
+                <a href="#equipamento" class="hover:text-accentBlue transition">Fire Stick</a>
+                <a href="#ajuda" class="hover:text-accentBlue transition">Ajuda (FAQ)</a>
+            </nav>
+
+            <div class="flex items-center space-x-4">
+                <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20pedir%20meu%20TESTE%20GRÁTIS%20no%20Geremy.TV" target="_blank" class="hidden sm:inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white font-semibold px-4 py-2 rounded-xl text-sm transition shadow-lg shadow-emerald-900/30">
+                    <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Teste Grátis
+                </a>
+                <button id="menuBtn" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+                    <i class="fa-solid fa-bars text-2xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Menu Mobile -->
+        <div id="mobileMenu" class="hidden md:hidden bg-cardBg border-b border-slate-800 px-4 pt-2 pb-4 space-y-3">
+            <a href="#home" class="block py-2 hover:text-accentBlue">Início</a>
+            <a href="#player" class="block py-2 text-accentBlue font-bold"><i class="fa-solid fa-play-circle mr-1"></i> Web Player</a>
+            <a href="#sobre" class="block py-2 hover:text-accentBlue">O que é IPTV</a>
+            <a href="#planos" class="block py-2 hover:text-accentBlue">Planos</a>
+            <a href="#equipamento" class="block py-2 hover:text-accentBlue">Fire Stick</a>
+            <a href="#ajuda" class="block py-2 hover:text-accentBlue">Ajuda (FAQ)</a>
+            <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20pedir%20meu%20TESTE%20GRÁTIS%20no%20Geremy.TV" target="_blank" class="block w-full text-center bg-emerald-600 text-white font-semibold py-2 rounded-xl">
+                <i class="fa-brands fa-whatsapp mr-2"></i> Teste Grátis no WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="relative pt-16 pb-24 overflow-hidden">
+        <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/20 via-transparent to-transparent pointer-events-none"></div>
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+            <span class="inline-flex items-center space-x-2 bg-blue-950/80 border border-blue-500/30 text-blue-400 text-xs sm:text-sm font-medium px-4 py-1.5 rounded-full mb-6">
+                <i class="fa-solid fa-bolt text-amber-400"></i>
+                <span>Tecnologia Anti-Travamento 4K / Full HD</span>
+            </span>
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight max-w-4xl mx-auto leading-tight mb-6">
+                Sua TV Completa com <span class="gradient-text">Máxima Qualidade</span>
+            </h1>
+            <p class="text-lg sm:text-xl text-slate-400 max-w-2xl mx-auto mb-10">
+                Mais de 100.000 conteúdos entre canais ao vivo, filmes atualizados e séries exclusivas direto na sua tela sem travamentos.
+            </p>
+            <div class="flex flex-col sm:flex-row justify-center items-center space-y-4 sm:space-y-0 sm:space-x-4">
+                <a href="https://wa.me/5551999999999?text=Olá!%20Quero%20solicitar%20meu%20TESTE%20GRÁTIS%20do%20Geremy.TV" target="_blank" class="w-full sm:w-auto bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-4 rounded-xl text-lg transition shadow-xl shadow-emerald-900/40 flex items-center justify-center">
+                    <i class="fa-brands fa-whatsapp mr-2 text-2xl"></i> Quero Testar Grátis
+                </a>
+                <a href="#planos" class="w-full sm:w-auto bg-cardBg hover:bg-slate-800 border border-slate-700 text-slate-200 font-bold px-8 py-4 rounded-xl text-lg transition flex items-center justify-center">
+                    <i class="fa-solid fa-tags mr-2 text-accentBlue"></i> Ver Planos e Preços
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- XCIPTV / XP IPTV Web Player Section -->
+    <section id="player" class="py-16 bg-slate-950/60 border-y border-slate-900">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-10">
+                <h2 class="text-3xl font-bold mb-2">Web Player <span class="gradient-text">Exclusivo Geremy.TV</span></h2>
+                <p class="text-slate-400">Faça login com sua lista M3U ou dados do painel para testar os canais e filmes direto no navegador.</p>
+            </div>
+
+            <!-- Container Principal do Player estilo App de TV -->
+            <div class="bg-cardBg rounded-2xl glow-card overflow-hidden border border-slate-800">
+                
+                <!-- 1. Tela de Login / Conexão (Estilo App XCIPTV) -->
+                <div id="loginPanel" class="p-8 sm:p-12">
+                    <div class="max-w-md mx-auto bg-darkBg/80 p-8 rounded-2xl border border-slate-800">
+                        <div class="text-center mb-6">
+                            <div class="w-16 h-16 bg-accentBlue/20 text-accentBlue rounded-full flex items-center justify-center mx-auto mb-3 text-2xl glow-blue">
+                                <i class="fa-solid fa-user-lock"></i>
+                            </div>
+                            <h3 class="text-xl font-bold">Conectar ao Servidor</h3>
+                            <p class="text-xs text-slate-400 mt-1">Insira suas credenciais IPTV ou link M3U</p>
+                        </div>
+
+                        <!-- Abas de Tipo de Conexão -->
+                        <div class="flex bg-slate-900 p-1 rounded-xl mb-6 text-sm font-medium">
+                            <button onclick="alternarMetodoLogin('xtream')" id="tabXtream" class="flex-1 py-2 rounded-lg bg-accentBlue text-white transition">Dados API</button>
+                            <button onclick="alternarMetodoLogin('m3u')" id="tabM3u" class="flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition">Lista M3U</button>
+                        </div>
+
+                        <!-- Formulário XTREAM API -->
+                        <div id="formXtream" class="space-y-4">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">Nome da Lista</label>
+                                <input type="text" id="xtreamName" value="Geremy.TV VIP" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">URL do Servidor (ex: http://servidor.com:8080)</label>
+                                <input type="text" id="xtreamUrl" placeholder="http://..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
+                            </div>
+                            <div class="grid grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-400 mb-1">Usuário</label>
+                                    <input type="text" id="xtreamUser" placeholder="Usuário" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-medium text-slate-400 mb-1">Senha</label>
+                                    <input type="password" id="xtreamPass" placeholder="Senha" class="w-full bg-slate-900 border border-slate-800 rounded-xl px-4 py-3 text-sm focus:outline-none focus:border-accentBlue text-white">
+                                </div>
+                            </div>
+                            <button onclick="conectarXtream()" class="w-full bg-accentBlue hover:bg-accentHover text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40">
+                                <i class="fa-solid fa-right-to-bracket mr-2"></i> Conectar ao Painel
+                            </button>
+                        </div>
+
+                        <!-- Formulário M3U -->
+                        <div id="formM3u" class="space-y-4 hidden">
+                            <div>
+                                <label class="block text-xs font-medium text-slate-400 mb-1">URL da Lista M3U (.m3u / .m3u8)</label>
+                                <textarea id="m3uInput" rows="4" placeholder="Cole o link completo da sua lista M3U aqui..." class="w-full bg-slate-900 border border-slate-800 rounded-xl p-3 text-sm focus:outline-none focus:border-accentBlue text-white resize-none"></textarea>
+                            </div>
+                            <button onclick="conectarM3U()" class="w-full bg-accentBlue hover:bg-accentHover text-white font-bold py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40">
+                                <i class="fa-solid fa-link mr-2"></i> Carregar Lista M3U
+                            </button>
+                        </div>
+
+                        <!-- Botão de Demonstração Rápida -->
+                        <div class="mt-6 pt-6 border-t border-slate-800 text-center">
+                            <p class="text-xs text-slate-400 mb-3">Quer apenas testar o player agora?</p>
+                            <button onclick="carregarDemo()" class="bg-slate-800 hover:bg-slate-700 text-accentBlue text-xs font-semibold px-4 py-2 rounded-lg transition border border-accentBlue/30">
+                                <i class="fa-solid fa-bolt mr-1"></i> Carregar Canais de Demonstração
+                            </button>
+                        </div>
+
+                        <div id="loginError" class="mt-4 hidden bg-red-950/80 border border-red-500/50 text-red-200 text-xs p-3 rounded-lg text-center"></div>
+                    </div>
+                </div>
+
+                <!-- 2. Dashboard / Menu Estilo XCIPTV (Oculto até conectar) -->
+                <div id="dashboardPanel" class="hidden">
+                    <!-- Top Bar do Painel -->
+                    <div class="bg-slate-900 px-6 py-4 border-b border-slate-800 flex flex-wrap items-center justify-between gap-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-9 h-9 rounded-lg bg-emerald-600/20 text-emerald-400 flex items-center justify-center font-bold">
+                                <i class="fa-solid fa-signal"></i>
+                            </div>
+                            <div>
+                                <h4 id="dashTitle" class="font-bold text-sm">Geremy.TV - Conectado</h4>
+                                <span class="text-xs text-emerald-400"><i class="fa-solid fa-circle text-[8px] mr-1"></i> Servidor Online (4K/HD)</span>
+                            </div>
+                        </div>
+
+                        <!-- Abas de Categorias do App -->
+                        <div class="flex items-center space-x-2 bg-darkBg p-1.5 rounded-xl border border-slate-800">
+                            <button onclick="mudarAbaPainel('live')" id="btnTabLive" class="px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-tv"></i> <span>Ao Vivo</span>
+                            </button>
+                            <button onclick="mudarAbaPainel('movies')" id="btnTabMovies" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-film"></i> <span>Filmes (VOD)</span>
+                            </button>
+                            <button onclick="mudarAbaPainel('series')" id="btnTabSeries" class="px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2">
+                                <i class="fa-solid fa-clapperboard"></i> <span>Séries</span>
+                            </button>
+                        </div>
+
+                        <button onclick="desconectarPlayer()" class="bg-red-950/60 hover:bg-red-900 border border-red-500/30 text-red-300 text-xs font-semibold px-4 py-2 rounded-xl transition">
+                            <i class="fa-solid fa-right-from-bracket mr-1"></i> Desconectar
+                        </button>
+                    </div>
+
+                    <!-- Conteúdo Principal do Player -->
+                    <div class="grid grid-cols-1 lg:grid-cols-3 min-h-[500px]">
+                        
+                        <!-- Lista de Canais/Itens (Coluna Esquerda) -->
+                        <div class="bg-darkBg/50 p-4 border-r border-slate-800 flex flex-col">
+                            <div class="mb-3">
+                                <input type="text" id="searchChannel" onkeyup="filtrarCanais()" placeholder="Buscar canal ou filme..." class="w-full bg-slate-900 border border-slate-800 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-accentBlue text-white">
+                            </div>
+                            <div id="channelList" class="space-y-2 overflow-y-auto max-h-[420px] pr-1">
+                                <!-- Preenchido via JavaScript -->
+                            </div>
+                        </div>
+
+                        <!-- Player de Vídeo e Detalhes (Coluna Direita - 2 colunas) -->
+                        <div class="lg:col-span-2 p-6 flex flex-col justify-between bg-darkBg">
+                            <div class="relative bg-black rounded-xl overflow-hidden aspect-video shadow-2xl flex items-center justify-center border border-slate-800">
+                                <video id="videoPlayer" class="w-full h-full object-contain" controls autoplay></video>
+                                <div id="playerPlaceholder" class="absolute inset-0 flex flex-col items-center justify-center bg-slate-950 text-center p-6">
+                                    <div class="w-16 h-16 rounded-full bg-slate-900 text-accentBlue flex items-center justify-center mb-3 text-2xl glow-blue">
+                                        <i class="fa-solid fa-play"></i>
+                                    </div>
+                                    <p class="text-sm font-semibold text-slate-300">Selecione um canal ou filme na lista ao lado para reproduzir</p>
+                                </div>
+                            </div>
+
+                            <div class="mt-4 flex items-center justify-between bg-slate-900/60 border border-slate-800 p-4 rounded-xl">
+                                <div>
+                                    <h5 id="currentPlayingName" class="font-bold text-sm text-accentBlue">Nenhum canal selecionado</h5>
+                                    <p id="currentPlayingCategory" class="text-xs text-slate-400 mt-0.5">Geremy.TV Web Player - Alta Definição</p>
+                                </div>
+                                <div class="flex items-center space-x-2">
+                                    <span class="inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-400 border border-emerald-500/30">
+                                        <i class="fa-solid fa-circle text-[6px] mr-1"></i> HD / 4K
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- O que é IPTV Section -->
+    <section id="sobre" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div>
+                <span class="text-accentBlue font-bold uppercase tracking-wider text-sm mb-2 block">Entretenimento Sem Limites</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-6">O que é o <span class="gradient-text">Geremy.TV?</span></h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    É a evolução da sua televisão. Nosso sistema de IPTV entrega a mais completa programação de canais abertos e fechados em alta definição, além de um catálogo gigantesco com os maiores lançamentos do cinema mundial e todas as temporadas das séries mais populares das plataformas de streaming (Netflix, HBO Max, Prime Video, Disney+, etc.).
+                </p>
+                <div class="space-y-4 mb-8">
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 rounded-full bg-accentBlue/20 text-accentBlue flex items-center justify-center mt-1"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm">Filmes e Séries Atualizados Diariamente</h4>
+                            <p class="text-xs text-slate-400">Estreias do cinema e episódios novos adicionados na mesma semana.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3">
+                        <div class="w-6 h-6 rounded-full bg-accentBlue/20 text-accentBlue flex items-center justify-center mt-1"><i class="fa-solid fa-check text-xs"></i></div>
+                        <div>
+                            <h4 class="font-bold text-sm">Esportes ao Vivo com Todos os Campeonatos</h4>
+                            <p class="text-xs text-slate-400">Futebol nacional e internacional, Premiere, ESPN, combate e muito mais.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Onde é possível assistir -->
+            <div class="bg-cardBg p-8 rounded-2xl glow-card border border-slate-800">
+                <h3 class="text-xl font-bold mb-6 text-center"><i class="fa-solid fa-devices mr-2 text-accentBlue"></i> Onde é Possível Assistir?</h3>
+                <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 text-center">
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-tv text-3xl text-accentBlue mb-2"></i>
+                        <h4 class="font-semibold text-xs">Smart TV</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Samsung, LG, Roku</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-fire text-3xl text-orange-500 mb-2"></i>
+                        <h4 class="font-semibold text-xs">Fire Stick</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Amazon Fire TV</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-mobile-screen text-3xl text-accentBlue mb-2"></i>
+                        <h4 class="font-semibold text-xs">Celular / Tablet</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Android & iOS</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-box text-3xl text-accentBlue mb-2"></i>
+                        <h4 class="font-semibold text-xs">TV Box</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Android TV</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-laptop text-3xl text-accentBlue mb-2"></i>
+                        <h4 class="font-semibold text-xs">Computador</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Windows & Mac</p>
+                    </div>
+                    <div class="bg-slate-900 p-4 rounded-xl border border-slate-800 hover:border-accentBlue/50 transition">
+                        <i class="fa-solid fa-gamepad text-3xl text-accentBlue mb-2"></i>
+                        <h4 class="font-semibold text-xs">Video Games</h4>
+                        <p class="text-[10px] text-slate-400 mt-1">Via Aplicativos</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos Section -->
+    <section id="planos" class="py-20 bg-slate-950/60 border-y border-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-16">
+                <span class="text-accentBlue font-bold uppercase tracking-wider text-sm mb-2 block">Preços Justos e Acessíveis</span>
+                <h2 class="text-3xl sm:text-4xl font-extrabold mb-4">Escolha o Plano Ideal para Você</h2>
+                <p class="text-slate-400">Todos os planos contam com acesso completo a grade de canais, filmes, séries e suporte dedicado via WhatsApp.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+                
+                <!-- Plano Teste -->
+                <div class="bg-cardBg rounded-2xl glow-card p-8 flex flex-col justify-between border border-slate-800 hover:border-accentBlue/40 transition">
+                    <div>
+                        <div class="text-center mb-6">
+                            <span class="bg-slate-900 text-slate-300 text-xs font-bold px-3 py-1 rounded-full border border-slate-800">EXPERIÊNCIA</span>
+                            <h3 class="text-2xl font-bold mt-3">Teste Grátis</h3>
+                            <p class="text-xs text-slate-400 mt-1">Conheça nossa qualidade sem compromisso</p>
+                        </div>
+                        <div class="text-center mb-6">
+                            <span class="text-4xl font-black text-white">Grátis</span>
+                            <span class="text-xs text-slate-400 block mt-1">por 4 a 6 horas</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Todos os canais liberados</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Filmes e Séries inclusos</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Qualidade HD / FHD / 4K</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Suporte imediato via WhatsApp</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20pedir%20meu%20TESTE%20GRÁTIS%20do%20Geremy.TV" target="_blank" class="w-full bg-slate-800 hover:bg-slate-700 text-white font-bold py-3.5 rounded-xl text-center transition border border-slate-700">
+                        <i class="fa-brands fa-whatsapp mr-2 text-emerald-400"></i> Pedir Teste Grátis
+                    </a>
+                </div>
+
+                <!-- Plano 1 Mês (Destaque) -->
+                <div class="bg-gradient-to-b from-blue-950/60 to-cardBg rounded-2xl glow-card p-8 flex flex-col justify-between border-2 border-accentBlue relative transform md:-translate-y-2">
+                    <div class="absolute -top-3.5 left-1/2 transform -translate-x-1/2 bg-accentBlue text-white text-[10px] font-extrabold uppercase tracking-widest px-4 py-1 rounded-full shadow-lg">
+                        Mais Popular
+                    </div>
+                    <div>
+                        <div class="text-center mb-6 pt-2">
+                            <span class="bg-blue-900/60 text-blue-300 text-xs font-bold px-3 py-1 rounded-full border border-blue-500/30">MENSAL</span>
+                            <h3 class="text-2xl font-bold mt-3">1 Mês de Acesso</h3>
+                            <p class="text-xs text-slate-400 mt-1">Renovação opcional, sem fidelidade</p>
+                        </div>
+                        <div class="text-center mb-6">
+                            <span class="text-xs text-slate-400">R$</span>
+                            <span class="text-5xl font-black text-white">25</span>
+                            <span class="text-xl font-bold text-white">,90</span>
+                            <span class="text-xs text-slate-400 block mt-1">por mês</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-accentBlue mr-2"></i> 1 Ponto / Tela simultânea</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-accentBlue mr-2"></i> +100.000 Conteúdos</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-accentBlue mr-2"></i> Grade completa de Esportes</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-accentBlue mr-2"></i> Atualizações automáticas de filmes</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5551999999999?text=Olá!%20Quero%20assinar%20o%20plano%20de%201%20MÊS%20por%20R$%2025,90%20no%20Geremy.TV" target="_blank" class="w-full bg-accentBlue hover:bg-accentHover text-white font-bold py-3.5 rounded-xl text-center transition shadow-lg shadow-blue-900/40">
+                        <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Assinar 1 Mês (R$ 25,90)
+                    </a>
+                </div>
+
+                <!-- Plano 3 Meses -->
+                <div class="bg-cardBg rounded-2xl glow-card p-8 flex flex-col justify-between border border-slate-800 hover:border-accentBlue/40 transition">
+                    <div>
+                        <div class="text-center mb-6">
+                            <span class="bg-emerald-950 text-emerald-400 text-xs font-bold px-3 py-1 rounded-full border border-emerald-500/30">ECONOMIA DE 22%</span>
+                            <h3 class="text-2xl font-bold mt-3">3 Meses de Acesso</h3>
+                            <p class="text-xs text-slate-400 mt-1">Maior comodidade e melhor preço</p>
+                        </div>
+                        <div class="text-center mb-6">
+                            <span class="text-xs text-slate-400">R$</span>
+                            <span class="text-5xl font-black text-white">60</span>
+                            <span class="text-xl font-bold text-white">,00</span>
+                            <span class="text-xs text-emerald-400 font-semibold block mt-1">Equivalente a R$ 20,00/mês</span>
+                        </div>
+                        <ul class="space-y-3 text-sm text-slate-300 mb-8">
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> 1 Ponto / Tela simultânea</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Acesso total a todo o catálogo</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Servidores dedicados anti-quedas</li>
+                            <li class="flex items-center"><i class="fa-solid fa-check text-emerald-400 mr-2"></i> Prioridade no atendimento VIP</li>
+                        </ul>
+                    </div>
+                    <a href="https://wa.me/5551999999999?text=Olá!%20Quero%20assinar%20o%20plano%20de%203%20MESES%20por%20R$%2060,00%20no%20Geremy.TV" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-3.5 rounded-xl text-center transition shadow-lg shadow-emerald-900/40">
+                        <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Assinar 3 Meses (R$ 60,00)
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Equipamento Fire Stick Incluso -->
+    <section id="equipamento" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-gradient-to-r from-cardBg to-blue-950/40 rounded-3xl glow-card p-8 sm:p-12 border border-slate-800 grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+            <div>
+                <span class="inline-flex items-center space-x-2 bg-orange-950/80 border border-orange-500/30 text-orange-400 text-xs font-medium px-3 py-1 rounded-full mb-4">
+                    <i class="fa-solid fa-fire"></i>
+                    <span>Opção de Kit Completo com Aparelho</span>
+                </span>
+                <h2 class="text-3xl font-extrabold mb-4">Transforme qualquer TV comum em uma <span class="gradient-text">Smart TV 4K</span></h2>
+                <p class="text-slate-400 mb-6 leading-relaxed">
+                    Não tem uma Smart TV compatível em casa? Adquira o nosso plano com **Amazon Fire Stick incluso**! O aparelho já vai configurado de fábrica com o aplicativo do Geremy.TV instalado. Basta plugar na entrada HDMI da sua televisão, conectar no Wi-Fi e aproveitar.
+                </p>
+                <div class="flex items-center space-x-4">
+                    <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20saber%20mais%20sobre%20o%20plano%20com%20Fire%20Stick%20incluso%20no%20Geremy.TV" target="_blank" class="bg-accentBlue hover:bg-accentHover text-white font-bold px-6 py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40 flex items-center">
+                        <i class="fa-brands fa-whatsapp mr-2 text-lg"></i> Consultar Kit Fire Stick
+                    </a>
+                </div>
+            </div>
+            <div class="text-center bg-slate-900/80 p-8 rounded-2xl border border-slate-800">
+                <div class="w-20 h-20 bg-orange-600/20 text-orange-500 rounded-2xl flex items-center justify-center mx-auto mb-4 text-4xl shadow-xl">
+                    <i class="fa-solid fa-fire"></i>
+                </div>
+                <h3 class="text-xl font-bold mb-2">Amazon Fire Stick TV</h3>
+                <p class="text-xs text-slate-400 mb-4">Controle por voz com Alexa + Navegação ultrarrápida</p>
+                <div class="inline-block bg-emerald-950 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-4 py-2 rounded-xl">
+                    Pronto para uso • Configurado à distância ou na entrega
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programa de Indicação (Indique e Ganhe) -->
+    <section class="py-16 bg-slate-950/60 border-y border-slate-900">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <span class="text-accentBlue font-bold uppercase tracking-wider text-sm mb-2 block">Indique & Ganhe</span>
+            <h2 class="text-3xl font-extrabold mb-4">Ganhe Descontos e Dias Grátis</h2>
+            <p class="text-slate-400 max-w-2xl mx-auto mb-8">
+                Indique amigos para o Geremy.TV! A cada amigo que assinar um de nossos planos através da sua indicação, você ganha **dias adicionais gratuitos** ou desconto na sua próxima renovação.
+            </p>
+            <a href="https://wa.me/5551999999999?text=Olá!%20Quero%20saber%20como%20funciona%20o%20programa%20Indique%20e%20Ganhe%20do%20Geremy.TV" target="_blank" class="inline-flex items-center bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-emerald-900/40">
+                <i class="fa-solid fa-gift mr-2"></i> Quero Indicar Amigos
+            </a>
+        </div>
+    </section>
+
+    <!-- Grupo VIP de Avisos e Promoções -->
+    <section class="py-16 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="bg-cardBg rounded-3xl glow-card p-8 sm:p-12 border border-slate-800 text-center">
+            <div class="w-16 h-16 bg-blue-600/20 text-accentBlue rounded-full flex items-center justify-center mx-auto mb-4 text-2xl glow-blue">
+                <i class="fa-solid fa-bullhorn"></i>
+            </div>
+            <h2 class="text-3xl font-extrabold mb-3">Entre no nosso <span class="gradient-text">Grupo VIP</span></h2>
+            <p class="text-slate-400 max-w-xl mx-auto mb-8">
+                Participe do nosso canal de avisos e grupo exclusivo. Fique sabendo em primeira mão sobre a adição de novos filmes, campeonatos de futebol exclusivos e promoções relâmpago.
+            </p>
+            <a href="https://wa.me/5551999999999?text=Olá!%20Gostaria%20de%20entrar%20no%20Grupo%20VIP%20de%20avisos%20do%20Geremy.TV" target="_blank" class="inline-flex items-center bg-accentBlue hover:bg-accentHover text-white font-bold px-8 py-3.5 rounded-xl transition shadow-lg shadow-blue-900/40">
+                <i class="fa-brands fa-whatsapp mr-2 text-xl"></i> Entrar no Grupo VIP
+            </a>
+        </div>
+    </section>
+
+    <!-- Bot de Ajuda / FAQ Inteligente -->
+    <section id="ajuda" class="py-20 bg-slate-950/60 border-t border-slate-900">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <span class="text-accentBlue font-bold uppercase tracking-wider text-sm mb-2 block">Suporte Inteligente</span>
+                <h2 class="text-3xl font-extrabold mb-3">Bot de Ajuda & Soluções Rápidas</h2>
+                <p class="text-slate-400">Selecione abaixo a sua dúvida ou problema para encontrar a solução imediata:</p>
+            </div>
+
+            <div class="space-y-4">
+                <!-- Pergunta 1 -->
+                <div class="bg-cardBg rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(1)" class="w-full p-5 text-left font-bold flex items-center justify-between hover:bg-slate-900/50 transition">
+                        <span class="flex items-center text-sm sm:text-base"><i class="fa-solid fa-circle-question text-accentBlue mr-3"></i> O vídeo está travando ou carregando (buffering). O que fazer?</span>
+                        <i id="faqIcon1" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i>
+                    </button>
+                    <div id="faqContent1" class="hidden px-5 pb-5 text-sm text-slate-300 border-t border-slate-800/60 pt-4 bg-darkBg/40">
+                        <p class="mb-3">1. Verifique se sua conexão com a internet está estável (recomendamos pelo menos 15 Mbps para canais HD e 30 Mbps para 4K).</p>
+                        <p class="mb-3">2. Reinicie o seu roteador Wi-Fi e o aparelho onde está assistindo (TV, Fire Stick ou celular) tirando da tomada por 10 segundos.</p>
+                        <p class="mb-3">3. Se o problema persistir, clique no botão abaixo para falar diretamente com nosso suporte técnico no WhatsApp:</p>
+                        <a href="https://wa.me/5551999999999?text=Olá!%20Estou%20com%20problemas%20de%20travamento%20e%20preciso%20de%20ajuda%20no%20Geremy.TV" target="_blank" class="inline-flex items-center bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg mt-2">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> Falar com Suporte Humano
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pergunta 2 -->
+                <div class="bg-cardBg rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(2)" class="w-full p-5 text-left font-bold flex items-center justify-between hover:bg-slate-900/50 transition">
+                        <span class="flex items-center text-sm sm:text-base"><i class="fa-solid fa-circle-question text-accentBlue mr-3"></i> A tela está preta ou o canal não abre. Como resolver?</span>
+                        <i id="faqIcon2" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i>
+                    </button>
+                    <div id="faqContent2" class="hidden px-5 pb-5 text-sm text-slate-300 border-t border-slate-800/60 pt-4 bg-darkBg/40">
+                        <p class="mb-3">1. Alguns canais passam por manutenção periódica. Tente mudar para outro canal e voltar para ver se o stream inicializa.</p>
+                        <p class="mb-3">2. Feche o aplicativo completamente e abra novamente para atualizar a lista de canais.</p>
+                        <p class="mb-3">Caso não normalize, nossa equipe resolve rapidamente pelo WhatsApp:</p>
+                        <a href="https://wa.me/5551999999999?text=Olá!%20Estou%20com%20tela%20preta%20em%20alguns%20canais%20e%20preciso%20de%20ajuda%20no%20Geremy.TV" target="_blank" class="inline-flex items-center bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg mt-2">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> Falar com Suporte Humano
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Pergunta 3 -->
+                <div class="bg-cardBg rounded-xl border border-slate-800 overflow-hidden">
+                    <button onclick="toggleFaq(3)" class="w-full p-5 text-left font-bold flex items-center justify-between hover:bg-slate-900/50 transition">
+                        <span class="flex items-center text-sm sm:text-base"><i class="fa-solid fa-circle-question text-accentBlue mr-3"></i> Como instalo o aplicativo na minha Smart TV ou Fire Stick?</span>
+                        <i id="faqIcon3" class="fa-solid fa-chevron-down text-xs text-slate-400 transition"></i>
+                    </button>
+                    <div id="faqContent3" class="hidden px-5 pb-5 text-sm text-slate-300 border-t border-slate-800/60 pt-4 bg-darkBg/40">
+                        <p class="mb-3">Dispomos de suporte completo passo a passo para instalação em aplicativos como XCIPTV, IBO Player, DuplexPlay, SSIPTV e Smart IPTV.</p>
+                        <p class="mb-3">Chame no WhatsApp que enviamos o tutorial em vídeo ou configuramos para você em minutos:</p>
+                        <a href="https://wa.me/5551999999999?text=Olá!%20Preciso%20de%20ajuda%20para%20instalar%20o%20aplicativo%20na%20minha%20TV%20no%20Geremy.TV" target="_blank" class="inline-flex items-center bg-emerald-600 text-white text-xs font-bold px-4 py-2 rounded-lg mt-2">
+                            <i class="fa-brands fa-whatsapp mr-2"></i> Solicitar Ajuda de Instalação
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-darkBg border-t border-slate-900 py-12 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-accentBlue flex items-center justify-center text-white font-bold">
+                    <i class="fa-solid fa-tv text-sm"></i>
+                </div>
+                <span class="text-lg font-bold text-slate-200">GEREMY.TV</span>
+            </div>
+            <p class="mb-4">© 2026 Geremy.TV. Todos os direitos reservados. O melhor sistema de IPTV e Entretenimento.</p>
+            <p>Desenvolvido com tecnologia de ponta anti-travamento para sua máxima diversão.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript para interatividade do Player e Site -->
+    <script>
+        // Menu Mobile Toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // FAQ Toggle
+        function toggleFaq(id) {
+            const content = document.getElementById(`faqContent${id}`);
+            const icon = document.getElementById(`faqIcon${id}`);
+            content.classList.toggle('hidden');
+            icon.classList.toggle('rotate-180');
+        }
+
+        // Alternar abas de login
+        function alternarMetodoLogin(tipo) {
+            const tabXtream = document.getElementById('tabXtream');
+            const tabM3u = document.getElementById('tabM3u');
+            const formXtream = document.getElementById('formXtream');
+            const formM3u = document.getElementById('formM3u');
+
+            if (tipo === 'xtream') {
+                tabXtream.className = "flex-1 py-2 rounded-lg bg-accentBlue text-white transition";
+                tabM3u.className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
+                formXtream.classList.remove('hidden');
+                formM3u.classList.add('hidden');
+            } else {
+                tabM3u.className = "flex-1 py-2 rounded-lg bg-accentBlue text-white transition";
+                tabXtream.className = "flex-1 py-2 rounded-lg text-slate-400 hover:text-white transition";
+                formM3u.classList.remove('hidden');
+                formXtream.classList.add('hidden');
+            }
+        }
+
+        // Dados globais do player
+        let listaCanaisAtual = [];
+        let hlsInstance = null;
+
+        // Canais de demonstração funcionais (HLS livres e testes públicos)
+        const canaisDemo = [
+            {
+                name: "Big Buck Bunny (Filme Demo HD)",
+                category: "Filmes",
+                url: "https://test-streams.mux.dev/x36h1/x36h1.m3u8"
+            },
+            {
+                name: "Sintel Animation (Demo 1080p)",
+                category: "Filmes",
+                url: "https://bitmovin-a.akamaihd.net/content/sintel/hls/playlist.m3u8"
+            },
+            {
+                name: "Tears of Steel (Sci-Fi Demo)",
+                category: "Séries",
+                url: "https://demo.unified-streaming.com/k8s/features/stable/video/tears-of-steel/tears-of-steel.ism/.m3u8"
+            },
+            {
+                name: "Canal Ao Vivo Teste 1 (HLS Stream)",
+                category: "Ao Vivo",
+                url: "https://cph-p2p-ms.akamaized.net/hls/live/2000341/test/master.m3u8"
+            }
+        ];
+
+        function carregarDemo() {
+            listaCanaisAtual = canaisDemo;
+            ativarDashboard("Geremy.TV - Demonstração Oficial");
+            renderizarListaCanais(listaCanaisAtual);
+        }
+
+        function conectarXtream() {
+            const url = document.getElementById('xtreamUrl').value.trim();
+            const user = document.getElementById('xtreamUser').value.trim();
+            const pass = document.getElementById('xtreamPass').value.trim();
+            const name = document.getElementById('xtreamName').value.trim() || "Geremy.TV VIP";
+            const errDiv = document.getElementById('loginError');
+
+            if (!url || !user || !pass) {
+                errDiv.textContent = "Por favor, preencha a URL, Usuário e Senha!";
+                errDiv.classList.remove('hidden');
+                return;
+            }
+            errDiv.classList.add('hidden');
+
+            // Simula requisição Xtream Codes API ou usa fallback de demo se houver erro de CORS
+            let apiUrl = `${url}/player_api.php?username=${user}&password=${pass}&action=get_live_streams`;
+            
+            // Usamos proxy CORS público para garantir que o navegador consiga ler o painel externo
+            let proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(apiUrl)}`;
+
+            fetch(proxyUrl)
+                .then(res => res.json())
+                .then(data => {
+                    if (Array.isArray(data) && data.length > 0) {
+                        listaCanaisAtual = data.map(item => ({
+                            name: item.name || "Canal IPTV",
+                            category: "Ao Vivo",
+                            url: `${url}/live/${user}/${pass}/${item.stream_id}.m3u8`
+                        }));
+                        ativarDashboard(name);
+                        renderizarListaCanais(listaCanaisAtual);
+                    } else {
+                        throw new Error("Resposta inválida do servidor.");
+                    }
+                })
+                .catch(err => {
+                    console.warn("Aviso: Conexão direta bloqueada por CORS/Servidor. Carregando modo compatível com canais de demonstração.");
+                    // Fallback inteligente para demonstração caso o servidor do cliente bloqueie requisições web diretas
+                    listaCanaisAtual = canaisDemo;
+                    ativarDashboard(name + " (Modo Compatível)");
+                    renderizarListaCanais(listaCanaisAtual);
+                });
+        }
+
+        function conectarM3U() {
+            const m3uText = document.getElementById('m3uInput').value.trim();
+            const errDiv = document.getElementById('loginError');
+
+            if (!m3uText) {
+                errDiv.textContent = "Por favor, cole a URL ou o conteúdo da lista M3U!";
+                errDiv.classList.remove('hidden');
+                return;
+            }
+            errDiv.classList.add('hidden');
+
+            // Se for URL, tentamos ler via fetch/proxy
+            if (m3uText.startsWith('http')) {
+                let proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(m3uText)}`;
+                fetch(proxyUrl)
+                    .then(res => res.text())
+                    .then(text => {
+                        processarM3UText(text);
+                    })
+                    .catch(() => {
+                        alert("Não foi possível carregar a URL M3U diretamente pelo navegador devido a restrições de segurança. Carregando lista de demonstração.");
+                        carregarDemo();
+                    });
+            } else {
+                processarM3UText(m3uText);
+            }
+        }
+
+        function processarM3UText(texto) {
+            let linhas = texto.split('\n');
+            let canais = [];
+            let nomeAtual = "Canal IPTV";
+
+            for (let i = 0; i < linhas.length; i++) {
+                let linha = linhas[i].trim();
+                if (linha.startsWith('#EXTINF:')) {
+                    let partes = linha.split(',');
+                    if (partes.length > 1) {
+                        nomeAtual = partes[1].trim();
+                    }
+                } else if (linha && !linha.startsWith('#')) {
+                    canais.push({
+                        name: nomeAtual,
+                        category: "Lista M3U",
+                        url: linha
+                    });
+                }
+            }
+
+            if (canais.length > 0) {
+                listaCanaisAtual = canais;
+                ativarDashboard("Lista M3U Personalizada");
+                renderizarListaCanais(listaCanaisAtual);
+            } else {
+                alert("Nenhum canal válido encontrado na lista M3U informada.");
+            }
+        }
+
+        function ativarDashboard(titulo) {
+            document.getElementById('loginPanel').classList.add('hidden');
+            document.getElementById('dashboardPanel').classList.remove('hidden');
+            document.getElementById('dashTitle').textContent = titulo;
+        }
+
+        function desconectarPlayer() {
+            pararVideo();
+            document.getElementById('dashboardPanel').classList.add('hidden');
+            document.getElementById('loginPanel').classList.remove('hidden');
+        }
+
+        function renderizarListaCanais(canais) {
+            const container = document.getElementById('channelList');
+            container.innerHTML = '';
+
+            if (canais.length === 0) {
+                container.innerHTML = `<p class="text-xs text-slate-500 text-center py-4">Nenhum canal encontrado.</p>`;
+                return;
+            }
+
+            canais.forEach((canal, index) => {
+                let div = document.createElement('div');
+                div.className = "flex items-center justify-between bg-slate-900 hover:bg-slate-800/80 p-3 rounded-xl cursor-pointer transition border border-slate-800/80 group";
+                div.innerHTML = `
+                    <div class="flex items-center space-x-3 truncate">
+                        <div class="w-8 h-8 rounded-lg bg-accentBlue/20 text-accentBlue flex items-center justify-center text-xs font-bold flex-shrink-0 group-hover:bg-accentBlue group-hover:text-white transition">
+                            <i class="fa-solid fa-play text-[10px]"></i>
+                        </div>
+                        <div class="truncate">
+                            <h5 class="text-xs font-bold text-slate-200 truncate">${canal.name}</h5>
+                            <span class="text-[10px] text-slate-400">${canal.category}</span>
+                        </div>
+                    </div>
+                `;
+                div.onclick = () => reproduzirCanal(canal);
+                container.appendChild(div);
+            });
+        }
+
+        function filtrarCanais() {
+            let termo = document.getElementById('searchChannel').value.toLowerCase();
+            let filtrados = listaCanaisAtual.filter(c => c.name.toLowerCase().includes(termo));
+            renderizarListaCanais(filtrados);
+        }
+
+        function reproduzirCanal(canal) {
+            const video = document.getElementById('videoPlayer');
+            const placeholder = document.getElementById('playerPlaceholder');
+            const nomeEl = document.getElementById('currentPlayingName');
+            const catEl = document.getElementById('currentPlayingCategory');
+
+            placeholder.classList.add('hidden');
+            nomeEl.textContent = canal.name;
+            catEl.textContent = `Categoria: ${canal.category}`;
+
+            pararVideo();
+
+            if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = canal.url;
+                video.play().catch(e => console.log("Autoplay impedido pelo navegador"));
+            } else if (Hls.isSupported()) {
+                hlsInstance = new Hls();
+                hlsInstance.loadSource(canal.url);
+                hlsInstance.attachMedia(video);
+                hlsInstance.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play().catch(e => console.log("Autoplay impedido pelo navegador"));
+                });
+                hlsInstance.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        alert("Não foi possível reproduzir este stream devido a restrições de CORS ou link expirado.");
+                    }
+                });
+            } else {
+                alert("Seu navegador não suporta reprodução HLS.");
+            }
+        }
+
+        function pararVideo() {
+            const video = document.getElementById('videoPlayer');
+            video.pause();
+            video.src = "";
+            if (hlsInstance) {
+                hlsInstance.destroy();
+                hlsInstance = null;
+            }
+        }
+
+        function mudarAbaPainel(aba) {
+            const btnLive = document.getElementById('btnTabLive');
+            const btnMovies = document.getElementById('btnTabMovies');
+            const btnSeries = document.getElementById('btnTabSeries');
+
+            btnLive.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
+            btnMovies.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
+            btnSeries.className = "px-4 py-2 rounded-lg text-slate-400 hover:text-white text-xs font-bold transition flex items-center space-x-2";
+
+            if (aba === 'live') {
+                btnLive.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
+                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('ao vivo') || c.category.toLowerCase().includes('live')));
+            } else if (aba === 'movies') {
+                btnMovies.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
+                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('filmes') || c.category.toLowerCase().includes('vod')));
+            } else {
+                btnSeries.className = "px-4 py-2 rounded-lg bg-accentBlue text-white text-xs font-bold transition flex items-center space-x-2";
+                renderizarListaCanais(listaCanaisAtual.filter(c => c.category.toLowerCase().includes('séries') || c.category.toLowerCase().includes('series')));
+            }
+        }
+    </script>
+</body>
+</html>
